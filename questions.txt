@@ -1,0 +1,30 @@
+Q1)The file that are created are: BSTInt.o, BSTNodeInt.o, bst and testBST.o
+Q2)
+error 1)
+BSTInt.cpp:25:8: error: use of undeclared identifier 'root'
+  if (!root) {
+This causes an error because it can't access 'root'.
+
+error 2)
+BSTInt.cpp:26:5: error: use of undeclared identifier 'root'
+    root = new BSTNodeInt(item);
+This causes the same error as above where it can't access 'root' from BSTInt
+
+error 3)
+BSTInt.cpp:27:7: error: use of undeclared identifier 'isize'
+    ++isize;
+This causes an error because it can't access any objects from BSTInt
+
+error 4)
+BSTInt.cpp:31:22: error: use of undeclared identifier 'root'
+  BSTNodeInt* curr = root;
+This causes an error because it tries to assign something that isn't
+reachable to a pointer to a node.
+
+error 5)
+BSTInt.cpp:56:5: error: use of undeclared identifier 'isize'
+  ++isize;
+This causes an error because it tries to iterate something that isn't
+accessible.
+
+Q3)

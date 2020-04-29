@@ -1,3 +1,8 @@
+//Name:Sergelenbayar Tsogtbaatar
+//Date:January 21, 2017
+//Overview: contains headers and functions for BSTIterator class.
+//Assignment Number: 1
+
 #ifndef BSTITERATOR_HPP
 #define BSTITERATOR_HPP
 #include "BSTNode.hpp"
@@ -42,10 +47,10 @@ public:
    */ 
 template<typename Data>
 BSTIterator<Data>::BSTIterator(BSTNode<Data>* curr) {
-  // TODO
   // Remember the keyword "this" which stores a pointer to the calling object.
   // It will be helpful to distinguish between the parameter "curr" and the 
   // member variable "curr"
+  this->curr = curr;
 }
 
 /** Dereference operator. */
@@ -70,14 +75,15 @@ BSTIterator<Data> BSTIterator<Data>::operator++(int) {
   return before;
 }
 
-/** Equality test operator. */ // TODO
+/** Equality test operator. */
 template<typename Data>
 bool BSTIterator<Data>::operator==(BSTIterator<Data> const & other) const {
-  // TODO
   // Notice that other is a reference and not a pointer, thus it cannot be null
   // Return true if other is NOT equal to the calling object
-  // Two iterators are equal if they point to the same BSTNode in the same BST  
-
+  // Two iterators are equal if they point to the same BSTNode in the same BST 
+  if((*this).curr == other.curr){
+     return true;
+  }
   return false;
 
 }
@@ -89,9 +95,10 @@ bool BSTIterator<Data>::operator!=(BSTIterator<Data> const & other) const {
   // Notice that other is a reference and not a pointer, thus it cannot be null
   // Return true if other is NOT equal to the calling object
   // Two iterators are equal if they point to the same BSTNode in the same BST
-
+  if(other.curr != (*this).curr){
+     return true;
+  }
   return false;
-
 }
 
 

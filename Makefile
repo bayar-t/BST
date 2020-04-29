@@ -9,7 +9,7 @@ FLAGS= -g -Wall -std=c++11
 
 BSTOBJ=  BSTInt.o BSTNodeInt.o
 
-BSTHPP=
+BSTHPP= BST.hpp BSTNode.hpp BSTIterator.hpp
 
 all: bst main
 

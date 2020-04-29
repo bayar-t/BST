@@ -1,3 +1,8 @@
+//Name:Sergelenbayar Tsogtbaatar
+//Date:January 21, 2017
+//Overview: contains headers and functions for BST class.
+//Assignment Number: 1
+
 #ifndef BST_HPP
 #define BST_HPP
 #include "BSTNode.hpp"
@@ -56,6 +61,12 @@ public:
    */ 
   int height() const;
 
+  /** Helper function for height() which uses recursion
+   * Parameter: BSTNode<Data>*
+   * Return: int
+   */
+  int heightHelp(BSTNode<Data>* x) const;
+
 
   /** Return true if the BST is empty, else false.
    */ // TODO
@@ -97,7 +108,9 @@ private:
 */
 template <typename Data>
 BST<Data>::~BST() {
-  deleteAll(root);
+   if(isize != 0){
+       deleteAll(root);
+   }
 }
 
 
@@ -111,12 +124,43 @@ BST<Data>::~BST() {
  */
 template <typename Data>
 std::pair<BSTIterator<Data>, bool> BST<Data>::insert(const Data& item) {
-  // TODO
-  // HINT: Copy code from your BSTInt class and change the return value
-  // REPLACE THE LINE BELOW
-  return std::pair<BSTIterator<Data>, bool>(BSTIterator<Data>(0), false);
 
-}
+  //if root doesnt exist then make one
+  if(!root){
+     root = new BSTNode<Data>(item);
+     ++isize;
+     return std::pair<BSTIterator<Data>, bool>(BSTIterator<Data>(root), true);
+  }
+  BSTNode<Data>* curr = root;
+  while(1){
+     if(item < (curr->data)){
+        if(curr->left == 0) {
+           BSTNode<Data>* newNode = new BSTNode<Data>(item);
+           curr->left = newNode;
+           newNode->parent = curr;
+           ++isize;
+           return std::pair<BSTIterator<Data>, bool>(BSTIterator<Data>(newNode), true);
+        }
+     curr = curr->left;
+     }
+     else if((curr->data) < item){
+        if(curr->right == 0){
+           BSTNode<Data>* newNode = new BSTNode<Data>(item);
+           curr->right = newNode;
+           newNode->parent = curr;
+           ++isize;
+           return std::pair<BSTIterator<Data>, bool>(BSTIterator<Data>(newNode), true);
+        }
+        curr = curr->right;
+     }
+     else{
+        return std::pair<BSTIterator<Data>, bool>(BSTIterator<Data>(0), false);
+     }
+     }
+  }
+
+
+
 
 
 /** Find a Data item in the BST.
@@ -131,6 +175,22 @@ BSTIterator<Data> BST<Data>::find(const Data& item) const
 {
   // TODO
   // HINT: Copy code from your BSTInt class and change the return value
+  if(empty()){
+     return BSTIterator<Data>(nullptr);
+  }
+  BSTNode<Data>* curr = root;
+  while(curr) {
+     if((curr->data) < item){
+        curr = curr->right;
+     }
+     else if(item < (curr->data)){
+        curr = curr->left;
+     }
+     else{
+        return BSTIterator<Data>(curr);
+     }
+
+  }
   return BSTIterator<Data>(nullptr);
 
 }
@@ -151,7 +211,35 @@ int BST<Data>::height() const
 {
   // TODO
   // HINT: Copy code from your BSTInt class
-  return 0;
+  if(isize == 0){
+     return -1;
+  }
+  BSTNode<Data>* curr = root;
+  int max = heightHelp(curr);
+  return (max-1);
+}
+/** Helper function for height()
+ * Parameter: BSTNode<Data>*
+ * Return: int
+ */
+template <typename Data>
+int BST<Data>::heightHelp(BSTNode<Data>* x) const
+{
+   int left = 0;
+   int right = 0;
+   if(x->left){
+      left = heightHelp(x->left);
+   }
+   if(x->right){
+      right = heightHelp(x->right);
+   }
+   if(left < right){
+      return right +1;
+   }
+   else{
+      return left +1;
+   }
+
 }
 
 
@@ -160,9 +248,10 @@ int BST<Data>::height() const
 template <typename Data>
 bool BST<Data>::empty() const
 {
-  // TODO
-  // HINT: Copy code form your BSTInt class
-  return false;
+   if(isize == 0){
+      return true;
+   }
+   return false;
 }
 
 /** Return an iterator pointing to the first (smallest) item in the BST.
@@ -187,8 +276,11 @@ BSTIterator<Data> BST<Data>::end() const
 template <typename Data>
 BSTNode<Data>* BST<Data>::first(BSTNode<Data>* root)
 {
-  // TODO
-  return nullptr;
+  BSTNode<Data>* curr = root;
+  while(curr->left){
+     curr = curr->left;
+  }
+  return curr;
 }
 
 /** do a postorder traversal, deleting nodes
@@ -196,8 +288,13 @@ BSTNode<Data>* BST<Data>::first(BSTNode<Data>* root)
 template <typename Data>
 void BST<Data>::deleteAll(BSTNode<Data>* n)
 {
-  // TODO
-  // HINT: Copy code from your BSTInt class.
+   if(n->left){
+      deleteAll(n->left);
+   }
+   if(n->right){
+      deleteAll(n->right);
+   }
+   delete(n);
 }
 
 

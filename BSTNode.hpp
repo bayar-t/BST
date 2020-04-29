@@ -1,3 +1,8 @@
+//Name:Sergelenbayar Tsogtbaatar
+//Date:January 21, 2017
+//Overview: contains headers and functions for BSTNode class.
+//Assignment Number: 1
+
 #ifndef BSTNODE_HPP
 #define BSTNODE_HPP
 #include <iostream>
@@ -5,18 +10,18 @@
 
 /** Starter code for PA1, CSE 100 2016
  * Authors: Christine Alvarado, based on code by Paul Kube 
- * ADD YOUR NAME AS AN AUTHOR HERE
- */
+ * Author: Sergelenbayar Tsogtbaatar
+ * */
 
 template<typename Data>
 class BSTNode {
 
 public:
-
+  Data const data;
   BSTNode<Data>* left;
   BSTNode<Data>* right;
   BSTNode<Data>* parent;
-  Data const data;   // the const Data in this node.
+  // the const Data in this node.
 
   /** Constructor.  Initialize a BSTNode with the given Data item,
    *  no parent, and no children.
@@ -46,8 +51,29 @@ BSTNode<Data>::BSTNode(const Data & d) : data(d), left(0), right(0), parent(0) {
 template <typename Data>
 BSTNode<Data>* BSTNode<Data>::successor()
 {
-  //TODO 
-  return NULL;
+   BSTNode<Data>* curr = right;
+   if(curr){
+      //check the right child
+      while(curr->left){
+         curr = curr->left;
+      }
+      return curr;
+   }
+   //if there is no right child then traverse
+   else{
+      curr = this;
+      BSTNode* prev = this;
+      while(curr->left != prev){
+         if(!(curr->parent)){
+            return 0;
+         }
+         prev = curr;
+         curr = curr->parent;
+      }
+      return curr;
+   }
+
+  return 0;
 }
 
 /** Overload operator<< to print a BSTNode's fields to an ostream. */
